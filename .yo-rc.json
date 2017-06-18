@@ -1,0 +1,9 @@
+{
+  "generator-wix-js": {
+    "promptValues": {
+      "authorName": "Shimon Shvartsbroit",
+      "authorEmail": "shimons@wix.com",
+      "groupId": "com.wixpress.promote"
+    }
+  }
+}
