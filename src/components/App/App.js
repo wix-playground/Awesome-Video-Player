@@ -18,7 +18,10 @@ function generateMovies(numMovies) {
 function App() {
 
   const movies = generateMovies(20);
-  const movieItems = movies.map((movieName, idx) => <div key={idx} className={s.searchresult}><img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>{movieName}</div>);
+  const movieItems = movies.map((movieName, idx) =>
+    <div key={idx} className={s.searchresult}>
+      <img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>{movieName}
+    </div>);
 
   return (
     <div className={s.root}>
