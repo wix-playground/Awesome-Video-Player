@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import {translate} from 'react-i18next';
 import s from './App.scss';
 import {Container, Row, Col, Card} from 'wix-style-react/dist/src/Grid';
-// import {Container, Row, Col, Card} from 'wix-style-react/dist/src/Grid';
-import {TextField, Input} from 'wix-style-react';
-// import {TextField} from 'wix-style-react/dist/src/TextField';
-// import {Input} from 'wix-style-react/dist/src/Input';
-// import {Label} from 'wix-style-react/dist/src/Label';
-function renderStandardInput() {
-  return (
-    <TextField>
+import {TextField, Input, Button} from 'wix-style-react';
+function searchButtonClicked() {
+  console.log('Search button');
+}
 
-      <Input
-        id="textField"
-        placeholder="Default text goes"
-        />
-    </TextField>
-  );
+function generateMovies(numMovies) {
+  const movies = [];
+  for (let i = 1; i <= numMovies; i++) {
+    movies.push('Movie ' + i);
+  }
+  return movies;
 }
 function App() {
+
+  const movies = generateMovies(20);
+  const movieItems = movies.map((movieName, idx) => <div key={idx} className={s.searchresult}><img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>{movieName}</div>);
 
   return (
     <div className={s.root}>
@@ -38,13 +37,27 @@ function App() {
         </Row>
 
         <Row>
-          <Col span={4}>
-            {renderStandardInput()}
+
+
+          <Col span={3}>
+            <TextField>
+              <Input id="movieNameTextField" placeholder="Enter video name (e.g. 'Kitty 2017')"/>
+            </TextField>
+
+            <div className={s.searchresultscontainer}>
+              {movieItems}
+            </div>
+
+          </Col>
+
+          <Col span={1}>
+            <Button height="medium" theme="fullblue" onClick={searchButtonClicked}>Search!</Button>
           </Col>
 
           <Col span={8}>
             <div className={s.videoplayer}/>
           </Col>
+
         </Row>
 
       </Container>
