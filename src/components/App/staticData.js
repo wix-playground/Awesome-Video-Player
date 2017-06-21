@@ -60,7 +60,8 @@ window.youtubeListData =
       },
       player: {
         default: 'https://www.youtube.com/watch?v=9Yk4eUWI7_Y&feature=youtube_gdata_player',
-        mobile: 'https://m.youtube.com/details?v=9Yk4eUWI7_Y'
+        mobile: 'https://m.youtube.com/details?v=9Yk4eUWI7_Y',
+        videoId: '6g5ZF6DUrHI'
       },
       content: {
         5: 'https://www.youtube.com/v/9Yk4eUWI7_Y?version=3&f=videos&app=youtube_gdata',

@@ -26,9 +26,6 @@ function getMovies(searchText) {
     };
   });
 
-
-  // filteredItems.fo
-
   return movies;
 }
 
@@ -51,13 +48,14 @@ class App extends React.Component {
 
     this.state = {
       results: getMovies(''),
-      videoId: '2g811Eo7K8U'
+      videoId: '2g811Eo7K8U',
+      searchStr: ''
     };
   }
 
   onSearchChange(e) {
     const searchText = e.target.value;
-    this.setState({results: getMovies(searchText)});
+    this.setState({searchStr: searchText});
   }
 
 
@@ -73,6 +71,7 @@ class App extends React.Component {
 
 
   render() {
+    const results = getMovies(this.state.searchStr);
     return (
       <div className={s.root}>
         <div className={s.header}>
@@ -92,7 +91,7 @@ class App extends React.Component {
 
             <Col span={4}>
               <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')" onChange={this.onSearchChange}/>
-              <SearchResultsContainer movies={this.state.results} onResultClick={this.onResultClick}/>
+              <SearchResultsContainer movies={results} onResultClick={this.onResultClick}/>
             </Col>
 
             <Col span={8}>
