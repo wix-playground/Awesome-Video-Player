@@ -29,51 +29,68 @@ function getMovies(searchText) {
   return movies;
 }
 
+const opts = {
+  height: '390',
+  width: '640',
+  playerVars: { // https://developers.google.com/youtube/player_parameters
+    autoplay: 1
+  }
+};
+const movies = getMovies('ball');
 
-function App() {
 
-  const opts = {
-    height: '390',
-    width: '640',
-    playerVars: { // https://developers.google.com/youtube/player_parameters
-      autoplay: 1
-    }
-  };
-  const movies = getMovies('ball');
-  console.log(YouTube);
-  return (
-    <div className={s.root}>
-      <div className={s.header}>
-        <h2>Awesome Video Player</h2>
+class App extends React.Component {
+
+  constructor() {
+    super();
+
+    this.onSearchChange = this.onSearchChange.bind(this);
+
+    this.state = {
+      results: []
+    };
+  }
+
+  onSearchChange(e) {
+    const searchText = e.target.value;
+    this.setState({results: getMovies(searchText)});
+  }
+
+  render() {
+    return (
+      <div className={s.root}>
+        <div className={s.header}>
+          <h2>Awesome Video Player</h2>
+        </div>
+
+
+        <Container>
+          <Row>
+            <Col span={12}>
+              <Card>
+                <Card.Header title="Search Movies"/>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row>
+
+            <Col span={4}>
+              <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')" onChange={this.onSearchChange}/>
+              <SearchResultsContainer movies={this.state.results}/>
+            </Col>
+
+            <Col span={8}>
+              <YouTube opts={opts} videoId="2g811Eo7K8U"/>
+            </Col>
+
+          </Row>
+
+        </Container>
+
       </div>
-
-
-      <Container>
-        <Row>
-          <Col span={12}>
-            <Card>
-              <Card.Header title="Search Movies"/>
-            </Card>
-          </Col>
-        </Row>
-
-        <Row>
-
-          <Col span={4}>
-            <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')"/>
-            <SearchResultsContainer movies={movies}/>
-          </Col>
-
-          <Col span={8}>
-            <YouTube opts={opts} videoId="2g811Eo7K8U"/>
-          </Col>
-
-        </Row>
-
-      </Container>
-
-    </div>
-  );
+    );
+  }
 }
 
 App.propTypes = {
