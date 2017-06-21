@@ -6,21 +6,30 @@ import {Container, Row, Col, Card} from 'wix-style-react/dist/src/Grid';
 import SearchInput from './SearchInput';
 import SearchResultsContainer from './SearchResultsContainer';
 import YouTube from 'react-youtube';
+import './staticData';
 
-function getMovies(searchText, maxResults = 10) {
-  const movies = [];
-  for (let i = 1; i <= maxResults; i++) {
-    movies.push({
-      movieName: 'Movie ' + i,
-      thumbnailURL: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg'
-    });
-  }
+function getMovies(searchText) {
+
+  searchText = searchText.toLowerCase();
+
+  const {items} = window.youtubeListData.data;
+  const filteredItems = items.filter(
+    item => item.title.toLowerCase().indexOf(searchText) !== -1);
+
+  const movies = filteredItems.map(item => {
+    return {
+      movieName: item.title,
+      thumbnailURL: item.thumbnail.sqDefault
+    };
+  });
+
+
+  // filteredItems.fo
+
   return movies;
 }
 
-function videoOnReady() {
 
-}
 function App() {
 
   const opts = {
@@ -30,7 +39,7 @@ function App() {
       autoplay: 1
     }
   };
-  const movies = getMovies('Cool cats');
+  const movies = getMovies('ball');
   console.log(YouTube);
   return (
     <div className={s.root}>
