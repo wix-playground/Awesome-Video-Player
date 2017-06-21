@@ -9,20 +9,21 @@ import SearchInput from './SearchInput';
 //   console.log('Search button');
 // }
 
-// function generateMovies(numMovies) {
-//   const movies = [];
-//   for (let i = 1; i <= numMovies; i++) {
-//     movies.push('Movie ' + i);
-//   }
-//   return movies;
-// }
+function generateMovies(numMovies) {
+  const movies = [];
+  for (let i = 1; i <= numMovies; i++) {
+    movies.push('Movie ' + i);
+  }
+  return movies;
+}
 function App() {
 
-  // const movies = generateMovies(20);
-  // const movieItems = movies.map((movieName, idx) =>
-  //   <div key={idx} className={s.searchresult}>
-  //     <img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>{movieName}
-  //   </div>);
+  const movies = generateMovies(20);
+  const movieItems = movies.map((movieName, idx) =>
+    <Row key={idx} className={s.searchresult}>
+      <img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>
+      {movieName}
+    </Row>);
 
   return (
     <div className={s.root}>
@@ -44,6 +45,7 @@ function App() {
 
           <Col span={4}>
             <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')"/>
+            {movieItems}
           </Col>
 
           <Col span={8}>
