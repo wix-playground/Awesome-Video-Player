@@ -16,10 +16,12 @@ function getMovies(searchText) {
   const filteredItems = items.filter(
     item => item.title.toLowerCase().indexOf(searchText) !== -1);
 
-  const movies = filteredItems.map(item => {
+  const movies = filteredItems.map((item, idx) => {
     return {
       movieName: item.title,
-      thumbnailURL: item.thumbnail.sqDefault
+      thumbnailURL: item.thumbnail.sqDefault,
+      url: item.player.default,
+      movieIndex: idx
     };
   });
 
@@ -45,6 +47,7 @@ class App extends React.Component {
     super();
 
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.onResultClick = this.onResultClick.bind(this);
 
     this.state = {
       results: []
@@ -56,13 +59,22 @@ class App extends React.Component {
     this.setState({results: getMovies(searchText)});
   }
 
+
+  onResultClick(idx) {
+    console.log(`move idx ${idx}`);
+    // 1. add css to chosen result
+    // 2. remove from previous
+    // const searchText = e.target.value;
+    // this.setState({results: getMovies(searchText)});
+  }
+
+
   render() {
     return (
       <div className={s.root}>
         <div className={s.header}>
           <h2>Awesome Video Player</h2>
         </div>
-
 
         <Container>
           <Row>
@@ -77,7 +89,7 @@ class App extends React.Component {
 
             <Col span={4}>
               <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')" onChange={this.onSearchChange}/>
-              <SearchResultsContainer movies={this.state.results}/>
+              <SearchResultsContainer movies={this.state.results} onResultClick={this.onResultClick}/>
             </Col>
 
             <Col span={8}>
