@@ -35,22 +35,19 @@ body {
 }
 
 .search-result {
-  text-align: left;
-}
-
-.search-result span {
-  line-height: 34px;
+  width: 270px;
+  height: 34px;
+  margin-top: 20px;
+  overflow-wrap: break-word;
 }
 
 .search-result img {
   width: 30px;
   height: 30px;
-  margin-right: 20px;
-
+  float: left;
 }
 
-
-.search-result img:hover {
-  width: 50px;
-  height: 50px;
-}
+// .search-result img:hover {
+//   width: 50px;
+//   height: 50px;
+// }
