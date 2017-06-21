@@ -5,6 +5,7 @@ import s from './App.scss';
 import {Container, Row, Col, Card} from 'wix-style-react/dist/src/Grid';
 import SearchInput from './SearchInput';
 import SearchResultsContainer from './SearchResultsContainer';
+import YouTube from 'react-youtube';
 
 function getMovies(searchText, maxResults = 10) {
   const movies = [];
@@ -17,10 +18,20 @@ function getMovies(searchText, maxResults = 10) {
   return movies;
 }
 
+function videoOnReady() {
+
+}
 function App() {
 
+  const opts = {
+    height: '390',
+    width: '640',
+    playerVars: { // https://developers.google.com/youtube/player_parameters
+      autoplay: 1
+    }
+  };
   const movies = getMovies('Cool cats');
-
+  console.log(YouTube);
   return (
     <div className={s.root}>
       <div className={s.header}>
@@ -45,7 +56,7 @@ function App() {
           </Col>
 
           <Col span={8}>
-            <div className={s.videoplayer}/>
+            <YouTube opts={opts} videoId="2g811Eo7K8U"/>
           </Col>
 
         </Row>
