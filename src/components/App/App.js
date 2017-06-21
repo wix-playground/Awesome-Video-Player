@@ -4,26 +4,22 @@ import {translate} from 'react-i18next';
 import s from './App.scss';
 import {Container, Row, Col, Card} from 'wix-style-react/dist/src/Grid';
 import SearchInput from './SearchInput';
+import SearchResultsContainer from './SearchResultsContainer';
 
-// function searchButtonClicked() {
-//   console.log('Search button');
-// }
-
-function generateMovies(numMovies) {
+function getMovies(searchText, maxResults = 10) {
   const movies = [];
-  for (let i = 1; i <= numMovies; i++) {
-    movies.push('Movie ' + i);
+  for (let i = 1; i <= maxResults; i++) {
+    movies.push({
+      movieName: 'Movie ' + i,
+      thumbnailURL: 'http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg'
+    });
   }
   return movies;
 }
+
 function App() {
 
-  const movies = generateMovies(20);
-  const movieItems = movies.map((movieName, idx) =>
-    <Row key={idx} className={s.searchresult}>
-      <img src="http://flexslider.woothemes.com/images/kitchen_adventurer_cheesecake_brownie.jpg"/>
-      {movieName}
-    </Row>);
+  const movies = getMovies('Cool cats');
 
   return (
     <div className={s.root}>
@@ -45,7 +41,7 @@ function App() {
 
           <Col span={4}>
             <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')"/>
-            {movieItems}
+            <SearchResultsContainer movies={movies}/>
           </Col>
 
           <Col span={8}>
