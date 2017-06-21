@@ -21,6 +21,7 @@ function getMovies(searchText) {
       movieName: item.title,
       thumbnailURL: item.thumbnail.sqDefault,
       url: item.player.default,
+      videoId: item.player.videoId,
       movieIndex: idx
     };
   });
@@ -38,7 +39,6 @@ const opts = {
     autoplay: 1
   }
 };
-const movies = getMovies('ball');
 
 
 class App extends React.Component {
@@ -50,7 +50,8 @@ class App extends React.Component {
     this.onResultClick = this.onResultClick.bind(this);
 
     this.state = {
-      results: []
+      results: getMovies(''),
+      videoId: '2g811Eo7K8U'
     };
   }
 
@@ -61,7 +62,9 @@ class App extends React.Component {
 
 
   onResultClick(idx) {
-    console.log(`move idx ${idx}`);
+    const movie = this.state.results[idx];
+    this.setState({videoId: movie.videoId});
+    // console.log(`move idx ${idx}`);
     // 1. add css to chosen result
     // 2. remove from previous
     // const searchText = e.target.value;
@@ -93,7 +96,7 @@ class App extends React.Component {
             </Col>
 
             <Col span={8}>
-              <YouTube opts={opts} videoId="2g811Eo7K8U"/>
+              <YouTube opts={opts} videoId={this.state.videoId}/>
             </Col>
 
           </Row>
