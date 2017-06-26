@@ -8,6 +8,41 @@ import SearchResultsContainer from './SearchResultsContainer';
 import YouTube from 'react-youtube';
 import './staticData';
 
+const YOUTUBE_API_KEY = 'AIzaSyAz92Z8ExWU423gMEkfhimGEoAOlaKMusY';
+
+function getJSON(url, success, error) {
+  'use strict';
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if (xhr.status === 200) {
+        success(JSON.parse(xhr.responseText));
+      } else {
+        error(xhr.responseText);
+      }
+    }
+  };
+  xhr.open('GET', url);
+  xhr.send();
+}
+
+function searchYoutubeWithKeyword(keyword, success, error) {
+  getJSON(`https://www.googleapis.com/youtube/v3/search?type=video&q=${keyword}&maxResults=25&part=snippet&key=${YOUTUBE_API_KEY}`, success, error);
+}
+
+function createMovieFromYoutubeJSON(json, movieIndex) {
+  const {snippet} = json;
+
+  const movie = {
+    movieName: snippet.description,
+    thumbnailURL: snippet.thumbnails.default.url,
+    videoId: json.videoId,
+    movieIndex
+  };
+
+  return movie;
+}
+
 function getMovies(searchText) {
 
   searchText = searchText.toLowerCase();
@@ -43,19 +78,53 @@ class App extends React.Component {
   constructor() {
     super();
 
+    this.searchResults = [];
+
+    getJSON(`https://www.googleapis.com/youtube/v3/search?type=video&q=cats&maxResults=25&part=snippet&key=${YOUTUBE_API_KEY}`, response => {
+      console.log(response);
+    }, err => {
+      console.log(err);
+    });
+
+
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onResultClick = this.onResultClick.bind(this);
 
     this.state = {
-      results: getMovies(''),
       videoId: '2g811Eo7K8U',
-      searchStr: ''
+      searchStr: '',
     };
   }
 
   onSearchChange(e) {
     const searchText = e.target.value;
-    this.setState({searchStr: searchText});
+
+    const that = this;
+
+    searchYoutubeWithKeyword(searchText, response => {
+      const movies = response.ites;
+      console.log(movies);
+
+      this.searchResults = response.items.map((item, idx) => {
+        return createMovieFromYoutubeJSON(item, idx);
+      });
+
+      that.setState({searchStr: searchText});
+    }, err => {
+      console.log(err);
+    });
+
+    /*
+      searchYoutubeWithKeyword(searchText, response => {
+
+      const movies = response.ites;
+      console.log(movies);
+      that.setState({searchStr: searchText}); // WHY NO THIS?!?!?
+    }, err => {
+      console.log(err);
+    });
+    */
+
   }
 
 
@@ -71,7 +140,7 @@ class App extends React.Component {
 
 
   render() {
-    const results = getMovies(this.state.searchStr);
+    const results = this.searchResults;
     return (
       <div className={s.root}>
         <div className={s.header}>
@@ -90,7 +159,7 @@ class App extends React.Component {
           <Row>
 
             <Col span={4}>
-              <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')" onChange={this.onSearchChange}/>
+              <SearchInput placeholder="Enter video name (e.g. 'Kitty 2018')" onChange={e => this.onSearchChange(e)}/>
               <SearchResultsContainer movies={results} onResultClick={this.onResultClick}/>
             </Col>
 
