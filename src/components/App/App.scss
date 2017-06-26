@@ -41,6 +41,9 @@ body {
   overflow: hidden;
 }
 
+.search-result:hover {
+  cursor: pointer;
+}
 .search-result img {
   width: 30px;
   height: 30px;
