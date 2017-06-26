@@ -36,32 +36,11 @@ function createMovieFromYoutubeJSON(json, movieIndex) {
   const movie = {
     movieName: snippet.description,
     thumbnailURL: snippet.thumbnails.default.url,
-    videoId: json.videoId,
+    videoId: json.id.videoId,
     movieIndex
   };
 
   return movie;
-}
-
-function getMovies(searchText) {
-
-  searchText = searchText.toLowerCase();
-
-  const {items} = window.youtubeListData.data;
-  const filteredItems = items.filter(
-    item => item.title.toLowerCase().indexOf(searchText) !== -1);
-
-  const movies = filteredItems.map((item, idx) => {
-    return {
-      movieName: item.title,
-      thumbnailURL: item.thumbnail.sqDefault,
-      url: item.player.default,
-      videoId: item.player.videoId,
-      movieIndex: idx
-    };
-  });
-
-  return movies;
 }
 
 const opts = {
@@ -114,22 +93,13 @@ class App extends React.Component {
       console.log(err);
     });
 
-    /*
-      searchYoutubeWithKeyword(searchText, response => {
 
-      const movies = response.ites;
-      console.log(movies);
-      that.setState({searchStr: searchText}); // WHY NO THIS?!?!?
-    }, err => {
-      console.log(err);
-    });
-    */
 
   }
 
 
   onResultClick(idx) {
-    const movie = this.state.results[idx];
+    const movie = this.searchResults[idx];
     this.setState({videoId: movie.videoId});
     // console.log(`move idx ${idx}`);
     // 1. add css to chosen result
