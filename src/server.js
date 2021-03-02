@@ -1,7 +1,7 @@
 import 'babel-polyfill';
-import wixRenderer from 'wix-renderer';
-import wixRunMode from 'wix-run-mode';
-import wixExpressRenderingModel from 'wix-express-rendering-model';
+import wixRenderer from '@wix/wix-renderer';
+import wixRunMode from '@wix/wix-run-mode';
+import wixExpressRenderingModel from '@wix/wix-express-rendering-model';
 
 module.exports = (app, context) => {
   const config = context.config.load('wix-stack1');
